@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Home | Prabhat Mishra</title>
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/sidebar.css" />
   </head>
   <body>
     <!-- NAV -->
@@ -18,13 +19,34 @@
       </ul>
     </nav>
 
-    <!-- HOME CONTENT -->
-    <section class="home">
+
+
+    <!-- SIDEBAR NAVIGATION -->
+    <div class="sidebar">
+      <a href="#home" class="sidebar-link active" title="Home">
+        <span class="icon">🏠</span>
+      </a>
+      <a href="#about" class="sidebar-link" title="About">
+        <span class="icon">👤</span>
+      </a>
+      <a href="#skills" class="sidebar-link" title="Skills">
+        <span class="icon">💻</span>
+      </a>
+      <a href="#contact" class="sidebar-link" title="Contact">
+        <span class="icon">✉️</span>
+      </a>
+      <a href="resume.pdf" download class="sidebar-link" title="Resume">
+        <span class="icon">📄</span>
+      </a>
+    </div>
+
+    <!-- HOME SECTION -->
+    <section id="home" class="home">
       <h1>Hello, I'm <span>Prabhat Mishra</span></h1>
       <h2>Full Stack Developer</h2>
       <p>MCA Student | Web Developer | Cloud & DevOps Enthusiast</p>
       <div class="buttons">
-        <a href="contact.html" class="btn">Hire Me</a>
+        <a href="#contact" class="btn">Hire Me</a>
         <a
           href="resume.pdf"
           class="btn"
@@ -38,8 +60,110 @@
       </div>
     </section>
 
+    <!-- ABOUT SECTION -->
+    <section id="about" class="about-page">
+      <h1>About Me</h1>
+      <div class="content-wrapper">
+        <p>
+          I am
+          <span style="color: var(--accent-color); font-weight: bold"
+            >Prabhat Mishra</span
+          >
+          — a passionate Full Stack Developer currently pursuing MCA.
+        </p>
+        <p style="margin-top: 20px">
+          I build responsive websites and web apps using modern technologies like
+          HTML, CSS, JavaScript, React, Node.js, PHP, MySQL, MongoDB and more.
+          My goal is to create impactful digital experiences that are both
+          beautiful and functional.
+        </p>
+      </div>
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section id="skills" class="skills-page">
+      <h1>My Skills</h1>
+      <div class="skills-container">
+        <div class="skill">HTML5</div>
+        <div class="skill">CSS3</div>
+        <div class="skill">JavaScript (ES6+)</div>
+        <div class="skill">React.js</div>
+        <div class="skill">Node.js & Express</div>
+        <div class="skill">PHP</div>
+        <div class="skill">MySQL & SQL</div>
+        <div class="skill">MongoDB</div>
+        <div class="skill">Git & GitHub</div>
+        <div class="skill">DevOps Basics</div>
+        <div class="skill">Responsive Design</div>
+        <div class="skill">API Integration</div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="contact-page">
+      <h1>Contact Me</h1>
+      <div class="contact-wrapper">
+        <p>
+          <strong>Email:</strong>
+          <a
+            href="mailto:prabhatmishra1607@gmail.com"
+            style="color: inherit; text-decoration: none"
+            >mprabhat1607@gmail.com</a
+          >
+        </p>
+        <p><strong>Location:</strong> Pune, Maharashtra, India</p>
+
+        <div style="margin-top: 30px">
+          <a
+            href="https://linkedin.com/in/prabhat-b-mishra/"
+            target="_blank"
+            class="btn"
+            style="padding: 10px 20px; font-size: 0.9rem"
+            >LinkedIn</a
+          >
+          <a
+            href="https://github.com/Prabhat-16"
+            target="_blank"
+            class="btn"
+            style="
+              padding: 10px 20px;
+              font-size: 0.9rem;
+              margin-left: 10px;
+              background: transparent;
+              border: 1px solid var(--accent-color);
+            "
+            >GitHub</a
+          >
+        </div>
+      </div>
+    </section>
+
     <footer>
       <p>&copy; 2026 Prabhat Mishra. All Rights Reserved.</p>
     </footer>
+
+    <script>
+      // Active link switching on scroll
+      const sections = document.querySelectorAll("section");
+      const navLinks = document.querySelectorAll(".sidebar-link");
+
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (scrollY >= sectionTop - sectionHeight / 3) {
+            current = section.getAttribute("id");
+          }
+        });
+
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href").includes(current)) {
+            link.classList.add("active");
+          }
+        });
+      });
+    </script>
   </body>
 </html>

@@ -1,0 +1,90 @@
+/* Add to the end of style.css */
+
+/* Sidebar Navigation */
+.sidebar {
+  position: fixed;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 1000;
+  background: var(--glass-bg);
+  padding: 20px 10px;
+  border-radius: 50px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--card-shadow);
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+  background: var(--accent-color);
+  color: white;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+  transform: scale(1.1);
+}
+
+/* Tooltip for Sidebar */
+.sidebar-link::before {
+  content: attr(title);
+  position: absolute;
+  right: 60px;
+  background: var(--accent-color);
+  color: #0f172a;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(10px);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.sidebar-link:hover::before {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+/* Section specific styling for scrolling */
+SECTION {
+    scroll-margin-top: 80px; /* Offset for sticky navbar */
+}
+
+/* Alternating or distinct section backgrounds for single page feel */
+#about {
+    background: linear-gradient(to bottom, var(--bg-color), rgba(15, 23, 42, 0.95));
+}
+
+#skills {
+    background: linear-gradient(to bottom, rgba(15, 23, 42, 0.95), var(--bg-color));
+}
+
+#contact {
+    background: radial-gradient(circle at center, rgba(56, 189, 248, 0.05) 0%, var(--bg-color) 70%);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none; /* Hide sidebar on mobile, use navbar */
+  }
+}
