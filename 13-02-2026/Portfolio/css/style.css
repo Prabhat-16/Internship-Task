@@ -308,26 +308,165 @@ section {
 }
 
 /* Contact Page */
-.contact-page p {
-  font-size: 1.2rem;
-  margin: 15px 0;
-  padding: 20px 40px;
-  background: var(--glass-bg);
-  border-radius: 50px;
-  border: 1px solid var(--glass-border);
-  transition: all 0.3s ease;
+/* Contact Page */
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 40px;
+  flex-wrap: wrap;
   width: 100%;
-  max-width: 500px;
+  max-width: 1100px;
+  margin-top: 20px;
+}
+
+.contact-info,
+.contact-form {
+  flex: 1;
+  min-width: 320px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact-info h3,
+.contact-form h3 {
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  background: linear-gradient(
+    to right,
+    var(--accent-color),
+    var(--secondary-color)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.contact-info p {
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  color: #cbd5e1;
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
 }
 
-.contact-page p:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: scale(1.02);
+.contact-info p strong {
+  color: var(--text-color);
+  min-width: 80px;
+}
+
+.contact-info a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.contact-info a:hover {
+  color: var(--secondary-color);
+  text-decoration: underline;
+}
+
+/* Fix for button text visibility */
+.contact-info .btn {
+  color: white;
+  text-decoration: none;
+}
+
+.contact-info .btn:hover {
+  text-decoration: none;
+}
+
+.contact-info .github-btn {
+  color: var(--accent-color);
+}
+
+.contact-info .github-btn:hover {
+  color: white;
+}
+
+.social-links {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.social-btn {
+  padding: 12px 25px;
+  font-size: 0.95rem;
+}
+
+.github-btn {
+  background: transparent;
+  border: 2px solid var(--accent-color);
+  box-shadow: none;
+}
+
+.github-btn:hover {
+  background: var(--accent-color);
+  color: white;
+  box-shadow: 0 0 15px var(--accent-color);
+  transform: translateY(-3px);
+}
+
+.input-box {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.input-box input,
+.input-box textarea {
+  width: 100%;
+  padding: 15px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  color: var(--text-color);
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  font-family: "Poppins", sans-serif;
+}
+
+.input-box input:focus,
+.input-box textarea:focus {
   border-color: var(--accent-color);
+  background: rgba(15, 23, 42, 0.8);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.input-box textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.1rem;
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(
+    135deg,
+    var(--accent-color),
+    var(--secondary-color)
+  );
+  color: white;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(56, 189, 248, 0.5);
 }
 
 /* Animations */
