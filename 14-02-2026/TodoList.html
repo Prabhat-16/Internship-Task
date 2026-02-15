@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass To-Do</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(0, 0, 0, 0.3);
+            --text-color: #e2e8f0;
+            --text-muted: #94a3b8;
+            --bg-color: #0f172a;
+            --accent-color: #38bdf8;
+            --danger-color: #f43f5e;
+            --success-color: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            /* Task/Productivity themed background with dark overlay */
+            background-image: 
+                linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.9)),
+                url('https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=2072&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 5vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .date-display {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 14px 16px;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-color);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
+        }
+
+        button.add-btn {
+            padding: 0 20px;
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button.add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(118, 75, 162, 0.4);
+        }
+
+        ul { list-style: none; }
+
+        li {
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        li:first-child { border-top-left-radius: 12px; border-top-right-radius: 12px; }
+        li:last-child { border-bottom: none; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+
+        li:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        li.completed span {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .action-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 5px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: inline-flex;
+        }
+
+        .check-btn:hover { color: var(--success-color); background: rgba(16, 185, 129, 0.1); }
+        .delete-btn:hover { color: var(--danger-color); background: rgba(244, 63, 94, 0.1); }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideOut {
+            to { opacity: 0; transform: translateX(20px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>My Tasks</h2>
+        <p class="date-display" id="dateDisplay"></p>
+
+        <div class="input-group">
+            <input type="text" id="taskInput" placeholder="What needs to be done?">
+            <button class="add-btn" onclick="addTask()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+        </div>
+
+        <ul id="taskList">
+            <!-- Tasks will appear here -->
+        </ul>
+        <div id="emptyState" class="empty-state">No tasks for today. Enjoy!</div>
+    </div>
+
+    <script>
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateParams = { weekday: 'long', month: 'long', day: 'numeric' };
+            document.getElementById('dateDisplay').innerText = new Date().toLocaleDateString('en-US', dateParams);
+            loadTasks();
+        });
+
+        const taskInput = document.getElementById('taskInput');
+        const taskList = document.getElementById('taskList');
+        const emptyState = document.getElementById('emptyState');
+
+        // Allow 'Enter' key to submit
+        taskInput.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') addTask();
+        });
+
+        function addTask() {
+            const text = taskInput.value.trim();
+            if (text === '') return;
+
+            const task = {
+                id: Date.now(),
+                text: text,
+                completed: false
+            };
+
+            createTaskElement(task);
+            saveTask(task);
+            
+            taskInput.value = '';
+            checkEmptyState();
+        }
+
+        function createTaskElement(task) {
+            const li = document.createElement('li');
+            li.dataset.id = task.id;
+            if (task.completed) li.classList.add('completed');
+
+            li.innerHTML = `
+                <span>${task.text}</span>
+                <div style="display:flex; gap:5px;">
+                    <button class="action-btn check-btn" onclick="toggleTask(${task.id})">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </button>
+                    <button class="action-btn delete-btn" onclick="deleteTask(${task.id})">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    </button>
+                </div>
+            `;
+
+            // Insert at top
+            taskList.insertBefore(li, taskList.firstChild);
+        }
+
+        function toggleTask(id) {
+            const tasks = getTasks();
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                
+                // Update UI
+                const li = document.querySelector(`li[data-id="${id}"]`);
+                li.classList.toggle('completed');
+            }
+        }
+
+        function deleteTask(id) {
+            const li = document.querySelector(`li[data-id="${id}"]`);
+            // Animation
+            li.style.animation = 'slideOut 0.4s ease forwards';
+            
+            li.addEventListener('animationend', () => {
+                li.remove();
+                const tasks = getTasks().filter(t => t.id !== id);
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                checkEmptyState();
+            });
+        }
+
+        function saveTask(task) {
+            const tasks = getTasks();
+            tasks.unshift(task); // Add to beginning
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        function getTasks() {
+            return JSON.parse(localStorage.getItem('tasks')) || [];
+        }
+
+        function loadTasks() {
+            const tasks = getTasks();
+            tasks.forEach(task => createTaskElement(task));
+            checkEmptyState();
+        }
+
+        function checkEmptyState() {
+            if (taskList.children.length === 0) {
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Registration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(0, 0, 0, 0.2);
+            --text-color: #e2e8f0;
+            --text-muted: #94a3b8;
+            --bg-color: #0f172a;
+            --accent-color: #38bdf8;
+            --danger-color: #f43f5e;
+            --success-color: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            /* Network/Connection themed background for Registration */
+            background-image: 
+                linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.9)),
+                url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            padding-right: 40px; /* Space for icon */
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-color);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: var(--accent-color);
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
+        }
+
+        input.error {
+            border-color: var(--danger-color);
+        }
+
+        input.success {
+            border-color: var(--success-color);
+        }
+
+        .validation-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        input.success + .validation-icon.icon-success { opacity: 1; color: var(--success-color); }
+        input.error + .validation-icon.icon-error { opacity: 1; color: var(--danger-color); }
+
+        .error-message {
+            color: var(--danger-color);
+            font-size: 0.8rem;
+            margin-top: 0.4rem;
+            min-height: 1.2em;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+
+        .error-message.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            margin-top: 1rem;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(118, 75, 162, 0.4);
+        }
+        
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            color: white;
+            transform: translateX(150%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success { border-left: 4px solid var(--success-color); }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Password Strength Indicator */
+        .strength-meter {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            margin-top: 8px;
+            border-radius: 2px;
+            overflow: hidden;
+            display: flex;
+        }
+        .strength-segment {
+            flex: 1;
+            height: 100%;
+            margin-right: 2px;
+            background: transparent;
+            transition: background 0.3s ease;
+        }
+        .strength-segment:last-child { margin-right: 0; }
+        
+        .strength-weak .strength-segment:nth-child(1) { background: var(--danger-color); }
+        .strength-medium .strength-segment:nth-child(1),
+        .strength-medium .strength-segment:nth-child(2) { background: #facc15; }
+        .strength-strong .strength-segment:nth-child(1),
+        .strength-strong .strength-segment:nth-child(2),
+        .strength-strong .strength-segment:nth-child(3) { background: var(--success-color); }
+
+        /* Grid Layout */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 0; /* Reset margin for grid */
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .container {
+            max-width: 550px; /* Wider for 2 columns */
+            padding: 2.5rem;
+        }
+
+        /* Adjust button margin */
+        button[type="submit"] {
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="notification" id="notification">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success-color)"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span>Account created successfully!</span>
+    </div>
+
+    <div class="container">
+        <h2>Create Account</h2>
+        <p class="subtitle">Join us to get started</p>
+
+        <form id="registrationForm" novalidate>
+            <div class="form-grid">
+                <!-- Name Field -->
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="name" placeholder="Rahul Sharma" autocomplete="name">
+                        <svg class="validation-icon icon-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <svg class="validation-icon icon-error" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    </div>
+                </div>
+
+                <!-- Phone Field -->
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <div class="input-wrapper">
+                        <input type="tel" id="phone" placeholder="98765 43210" autocomplete="tel">
+                        <svg class="validation-icon icon-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <svg class="validation-icon icon-error" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    </div>
+                </div>
+
+                <!-- Email Field (Full Width) -->
+                <div class="form-group full-width">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" placeholder="rahul@example.in" autocomplete="email">
+                        <svg class="validation-icon icon-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <svg class="validation-icon icon-error" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    </div>
+                    <div class="error-message" id="emailError">Please enter a valid email</div>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" placeholder="••••••••" autocomplete="new-password">
+                        <svg class="validation-icon icon-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <svg class="validation-icon icon-error" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    </div>
+                    <div class="strength-meter" id="strengthMeter">
+                        <div class="strength-segment"></div>
+                        <div class="strength-segment"></div>
+                        <div class="strength-segment"></div>
+                    </div>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="confirmPassword" placeholder="••••••••" autocomplete="new-password">
+                        <svg class="validation-icon icon-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <svg class="validation-icon icon-error" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    </div>
+                    <div class="error-message" id="confirmPasswordError">No match</div>
+                </div>
+            </div>
+
+            <!-- Error container for compact layout -->
+            <div style="margin-top: 0.5rem; display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--danger-color); height: 1.2rem;">
+                <span id="nameError" class="error-message" style="margin:0; opacity:0; transform:none;"></span>
+                <span id="phoneError" class="error-message" style="margin:0; opacity:0; transform:none;"></span>
+            </div>
+            <div class="error-message" id="passwordError" style="margin-top:-0.5rem; margin-bottom: 0.5rem;">Minimum 6 chars</div>
+
+            <button type="submit" id="submitBtn">Sign Up</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('registrationForm');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const notification = document.getElementById('notification');
+
+            // Validation Patterns & Rules
+            const patterns = {
+                email: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+                phone: /^\d{10}$/, // Simple 10-digit validation
+                password: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/ 
+            };
+
+            const setStatus = (input, isValid, messageElement, errorMessage = '') => {
+                // Remove prev classes
+                input.classList.remove('success', 'error');
+                
+                if (isValid) {
+                    input.classList.add('success');
+                    messageElement.classList.remove('visible');
+                } else {
+                    input.classList.add('error');
+                    messageElement.innerText = errorMessage;
+                    messageElement.classList.add('visible');
+                }
+            };
+
+            const validateName = () => {
+                const value = nameInput.value.trim();
+                const isValid = value.length >= 2;
+                setStatus(nameInput, isValid, document.getElementById('nameError'), "Name must be at least 2 characters");
+                return isValid;
+            };
+
+            const validateEmail = () => {
+                const value = emailInput.value.trim();
+                const isValid = patterns.email.test(value);
+                setStatus(emailInput, isValid, document.getElementById('emailError'), "Please enter a valid email address");
+                return isValid;
+            };
+
+            const validatePhone = () => {
+                const value = phoneInput.value.trim().replace(/\D/g, ''); // Remove non-digits
+                const isValid = patterns.phone.test(value);
+                setStatus(phoneInput, isValid, document.getElementById('phoneError'), "Please enter a valid 10-digit number");
+                return isValid;
+            };
+
+            const validatePassword = () => {
+                const value = passwordInput.value;
+                const meter = document.getElementById('strengthMeter');
+                
+                // Strength Logic for Visuals
+                meter.className = 'strength-meter'; // reset
+                if (value.length > 0) {
+                    if (value.length < 6) meter.classList.add('strength-weak');
+                    else if (value.length < 10 && !patterns.password.test(value)) meter.classList.add('strength-medium');
+                    else if (patterns.password.test(value)) meter.classList.add('strength-strong');
+                }
+
+                // Strict Validation for Form Submission
+                const isValid = value.length >= 6; 
+                setStatus(passwordInput, isValid, document.getElementById('passwordError'), "Password must be at least 6 characters");
+                
+                // Re-validate confirm password if it has a value
+                if (confirmPasswordInput.value.length > 0) validateConfirmPassword();
+                
+                return isValid;
+            };
+
+            const validateConfirmPassword = () => {
+                const value = confirmPasswordInput.value;
+                const passwordValue = passwordInput.value;
+                const isValid = value === passwordValue && value.length > 0;
+                setStatus(confirmPasswordInput, isValid, document.getElementById('confirmPasswordError'), "Passwords do not match");
+                return isValid;
+            };
+
+            // Real-time Listeners
+            const addInputListener = (input, validator, errorId) => {
+                input.addEventListener('input', () => {
+                    if(input.value.length > 0) validator();
+                    else {
+                        input.classList.remove('success', 'error');
+                        document.getElementById(errorId).classList.remove('visible');
+                        if (input === passwordInput) {
+                             document.getElementById('strengthMeter').className = 'strength-meter';
+                        }
+                    }
+                });
+            };
+
+            addInputListener(nameInput, validateName, 'nameError');
+            addInputListener(emailInput, validateEmail, 'emailError');
+            addInputListener(phoneInput, validatePhone, 'phoneError');
+            addInputListener(passwordInput, validatePassword, 'passwordError');
+            addInputListener(confirmPasswordInput, validateConfirmPassword, 'confirmPasswordError');
+
+            // Form Submission
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const isNameValid = validateName();
+                const isEmailValid = validateEmail();
+                const isPhoneValid = validatePhone();
+                const isPasswordValid = validatePassword();
+                const isConfirmValid = validateConfirmPassword();
+
+                if (isNameValid && isEmailValid && isPhoneValid && isPasswordValid && isConfirmValid) {
+                    // Simulate API call
+                    const btn = document.getElementById('submitBtn');
+                    const originalText = btn.innerText;
+                    btn.innerText = 'Creating Account...';
+                    btn.disabled = true;
+
+                    setTimeout(() => {
+                        notification.classList.add('show', 'success');
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                        form.reset();
+                        
+                        // Clear validation states
+                        [nameInput, emailInput, phoneInput, passwordInput, confirmPasswordInput].forEach(input => {
+                            input.classList.remove('success');
+                        });
+                        document.getElementById('strengthMeter').className = 'strength-meter';
+
+                        // Hide notification after 3s
+                        setTimeout(() => {
+                            notification.classList.remove('show');
+                        }, 3000);
+                    }, 1500);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
