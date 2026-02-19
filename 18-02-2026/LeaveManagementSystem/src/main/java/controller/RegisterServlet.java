@@ -2,9 +2,9 @@ package controller;
 
 import dao.DBConnection;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +13,7 @@ import java.sql.PreparedStatement;
 public class RegisterServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response)
+            HttpServletResponse response)
             throws ServletException, IOException {
 
         String name = request.getParameter("name");
@@ -24,18 +24,24 @@ public class RegisterServlet extends HttpServlet {
             Connection con = DBConnection.getConnection();
 
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO users(name,email,password) VALUES(?,?,?)");
+                    "INSERT INTO users(name,email,password,role) VALUES(?,?,?,?)");
 
             ps.setString(1, name);
             ps.setString(2, email);
             ps.setString(3, password);
+            ps.setString(4, "employee"); // Default role
 
-            ps.executeUpdate();
+            int rows = ps.executeUpdate();
 
-            response.sendRedirect("login.jsp");
+            if (rows > 0) {
+                response.sendRedirect("login.jsp?status=registered");
+            } else {
+                response.sendRedirect("register.jsp?status=failed");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.sendRedirect("register.jsp?status=error"); // Redirect on error
         }
     }
 }

@@ -2,9 +2,9 @@ package controller;
 
 import dao.DBConnection;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.sql.*;
 
@@ -12,7 +12,7 @@ import java.sql.*;
 public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response)
+            HttpServletResponse response)
             throws ServletException, IOException {
 
         String email = request.getParameter("email");
@@ -33,16 +33,18 @@ public class LoginServlet extends HttpServlet {
 
                 HttpSession session = request.getSession();
                 session.setAttribute("userId", rs.getInt("id"));
-                session.setAttribute("role", rs.getString("role"));
+                session.setAttribute("userName", rs.getString("name"));
+                String role = rs.getString("role");
+                session.setAttribute("role", role);
 
-                if (rs.getString("role").equals("admin")) {
+                if ("admin".equalsIgnoreCase(role)) {
                     response.sendRedirect("adminDashboard.jsp");
                 } else {
                     response.sendRedirect("dashboard.jsp");
                 }
 
             } else {
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("login.jsp?status=error");
             }
 
         } catch (Exception e) {

@@ -2,9 +2,9 @@ package controller;
 
 import dao.DBConnection;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,14 +13,20 @@ import java.sql.PreparedStatement;
 public class LeaveServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response)
+            HttpServletResponse response)
             throws ServletException, IOException {
 
         String from = request.getParameter("from");
         String to = request.getParameter("to");
         String reason = request.getParameter("reason");
 
-        int userId = (int) request.getSession().getAttribute("userId");
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("userId") == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        int userId = (int) session.getAttribute("userId");
 
         try {
             Connection con = DBConnection.getConnection();
@@ -33,12 +39,17 @@ public class LeaveServlet extends HttpServlet {
             ps.setString(3, to);
             ps.setString(4, reason);
 
-            ps.executeUpdate();
+            int rows = ps.executeUpdate();
 
-            response.sendRedirect("dashboard.jsp");
+            if (rows > 0) {
+                response.sendRedirect("dashboard.jsp?status=success");
+            } else {
+                response.sendRedirect("applyLeave.jsp?status=failed");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.sendRedirect("applyLeave.jsp?status=error");
         }
     }
 }
