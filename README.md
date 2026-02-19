@@ -4,6 +4,14 @@ This repository contains daily tasks and projects completed during the internshi
 
 ## 📅 Daily Tasks
 
+### 18-02-2026
+
+- **LeaveManagementSystem**: Java Web Application for Leave Management with features for user/admin dashboards and leave tracking.
+
+### 17-02-2026
+
+- **OnlineFeedbackSystem**: Console/GUI-based Feedback System using JDBC for database operations.
+
 ### 16-02-2026
 
 - **Employee-Ecommerce-MySQL-Project**: MySQL database schemas and queries for ecommerce and employee management systems.
