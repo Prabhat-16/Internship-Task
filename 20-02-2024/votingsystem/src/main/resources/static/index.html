@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VoteSecure — Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --primary: #6366f1;
+        --primary-light: #818cf8;
+        --primary-dark: #4f46e5;
+        --accent: #06b6d4;
+        --bg-deep: #0a0b1e;
+        --bg-card: rgba(255, 255, 255, 0.05);
+        --border: rgba(255, 255, 255, 0.1);
+        --text: #f1f5f9;
+        --text-muted: #94a3b8;
+        --success: #10b981;
+        --error: #ef4444;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg-deep);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* Animated gradient background */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 80% 60% at 20% 10%,
+            rgba(99, 102, 241, 0.25) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 60% 50% at 80% 90%,
+            rgba(6, 182, 212, 0.2) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 50% 80% at 50% 50%,
+            rgba(79, 70, 229, 0.1) 0%,
+            transparent 70%
+          );
+        animation: bgPulse 8s ease-in-out infinite alternate;
+        z-index: 0;
+      }
+
+      @keyframes bgPulse {
+        0% {
+          opacity: 0.7;
+          transform: scale(1);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1.05);
+        }
+      }
+
+      /* Floating orbs */
+      .orb {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(80px);
+        pointer-events: none;
+        z-index: 0;
+      }
+      .orb-1 {
+        width: 400px;
+        height: 400px;
+        background: rgba(99, 102, 241, 0.15);
+        top: -100px;
+        left: -100px;
+        animation: float1 12s ease-in-out infinite;
+      }
+      .orb-2 {
+        width: 300px;
+        height: 300px;
+        background: rgba(6, 182, 212, 0.12);
+        bottom: -80px;
+        right: -80px;
+        animation: float2 10s ease-in-out infinite;
+      }
+      .orb-3 {
+        width: 200px;
+        height: 200px;
+        background: rgba(167, 139, 250, 0.1);
+        top: 50%;
+        left: 70%;
+        animation: float3 14s ease-in-out infinite;
+      }
+
+      @keyframes float1 {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(40px, 30px) scale(1.1);
+        }
+      }
+      @keyframes float2 {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(-30px, -40px) scale(1.1);
+        }
+      }
+      @keyframes float3 {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(-20px, 20px) scale(0.95);
+        }
+      }
+
+      /* Grid pattern overlay */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 40px 40px;
+        z-index: 0;
+      }
+
+      .container {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        max-width: 440px;
+        padding: 24px;
+        animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Logo / Brand */
+      .brand {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .brand-icon {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        box-shadow: 0 0 40px rgba(99, 102, 241, 0.5);
+        font-size: 28px;
+        animation: iconPulse 3s ease-in-out infinite;
+      }
+      @keyframes iconPulse {
+        0%,
+        100% {
+          box-shadow: 0 0 40px rgba(99, 102, 241, 0.5);
+        }
+        50% {
+          box-shadow:
+            0 0 60px rgba(99, 102, 241, 0.7),
+            0 0 80px rgba(6, 182, 212, 0.3);
+        }
+      }
+      .brand h1 {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--text);
+        letter-spacing: -0.5px;
+      }
+      .brand p {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+
+      /* Card */
+      .card {
+        background: rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 36px;
+        box-shadow:
+          0 8px 32px rgba(0, 0, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+
+      .card-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 4px;
+      }
+      .card-sub {
+        font-size: 13px;
+        color: var(--text-muted);
+        margin-bottom: 28px;
+      }
+
+      /* Form */
+      .field {
+        margin-bottom: 18px;
+      }
+      .field label {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-muted);
+        margin-bottom: 8px;
+        letter-spacing: 0.3px;
+      }
+      .input-wrap {
+        position: relative;
+      }
+      .input-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 16px;
+        color: var(--text-muted);
+        pointer-events: none;
+        transition: color 0.2s;
+      }
+      .field input {
+        width: 100%;
+        padding: 13px 14px 13px 42px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        color: var(--text);
+        font-size: 14px;
+        font-family: "Inter", sans-serif;
+        outline: none;
+        transition: all 0.25s ease;
+      }
+      .field input::placeholder {
+        color: rgba(148, 163, 184, 0.5);
+      }
+      .field input:focus {
+        border-color: var(--primary);
+        background: rgba(99, 102, 241, 0.08);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+      }
+      .field input:focus + .input-icon,
+      .input-wrap:focus-within .input-icon {
+        color: var(--primary-light);
+      }
+
+      /* Toggle password */
+      .toggle-pw {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 16px;
+        color: var(--text-muted);
+        user-select: none;
+        transition: color 0.2s;
+      }
+      .toggle-pw:hover {
+        color: var(--text);
+      }
+
+      /* Button */
+      .btn {
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+        border: none;
+        border-radius: 12px;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        font-family: "Inter", sans-serif;
+        cursor: pointer;
+        margin-top: 8px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.25s ease;
+        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+      }
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+      .btn:hover::before {
+        left: 100%;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(99, 102, 241, 0.55);
+      }
+      .btn:active {
+        transform: translateY(0);
+      }
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .btn-text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .spinner {
+        display: none;
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Toast message */
+      .toast {
+        margin-top: 16px;
+        padding: 12px 16px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 500;
+        display: none;
+        align-items: center;
+        gap: 8px;
+        animation: fadeIn 0.3s ease;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .toast.error {
+        background: rgba(239, 68, 68, 0.15);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
+        display: flex;
+      }
+      .toast.success {
+        background: rgba(16, 185, 129, 0.15);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: #6ee7b7;
+        display: flex;
+      }
+
+      /* Footer link */
+      .footer-link {
+        text-align: center;
+        margin-top: 24px;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+      .footer-link a {
+        color: var(--primary-light);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .footer-link a:hover {
+        color: var(--accent);
+        text-decoration: underline;
+      }
+
+      /* Security badge */
+      .security-badge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 20px;
+        font-size: 12px;
+        color: rgba(148, 163, 184, 0.6);
+      }
+      .security-badge span {
+        font-size: 14px;
+      }
+
+      /* Responsive */
+      @media (max-width: 480px) {
+        .card {
+          padding: 24px;
+        }
+        .container {
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="container">
+      <div class="brand">
+        <div class="brand-icon">🗳️</div>
+        <h1>VoteSecure</h1>
+        <p>Trusted Digital Voting Platform</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Welcome back</div>
+        <div class="card-sub">Sign in to cast your vote securely</div>
+
+        <div class="field">
+          <label for="email">Email Address</label>
+          <div class="input-wrap">
+            <input
+              type="email"
+              id="email"
+              placeholder="you@example.com"
+              autocomplete="email"
+            />
+            <span class="input-icon">✉️</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            />
+            <span class="input-icon">🔒</span>
+            <span class="toggle-pw" id="togglePw" title="Show/Hide password"
+              >👁️</span
+            >
+          </div>
+        </div>
+
+        <button class="btn" id="loginBtn" onclick="login()">
+          <span class="btn-text">
+            <div class="spinner" id="spinner"></div>
+            <span id="btnLabel">Sign In</span>
+          </span>
+        </button>
+
+        <div class="toast" id="toast"></div>
+      </div>
+
+      <div class="footer-link">
+        Don't have an account? <a href="register.html">Create one here →</a>
+      </div>
+
+      <div class="security-badge">
+        <span>🔐</span> End-to-end encrypted &nbsp;·&nbsp; <span>✅</span> One
+        vote per person
+      </div>
+    </div>
+
+    <script>
+      // Toggle password visibility
+      const toggler = document.getElementById("togglePw");
+      const pwInput = document.getElementById("password");
+      toggler.addEventListener("click", () => {
+        const isText = pwInput.type === "text";
+        pwInput.type = isText ? "password" : "text";
+        toggler.textContent = isText ? "👁️" : "🙈";
+      });
+
+      // Enter key support
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") login();
+      });
+
+      function showToast(msg, type) {
+        const t = document.getElementById("toast");
+        t.textContent = (type === "error" ? "⛔ " : "✅ ") + msg;
+        t.className = "toast " + type;
+      }
+
+      function setLoading(on) {
+        const btn = document.getElementById("loginBtn");
+        const spinner = document.getElementById("spinner");
+        const label = document.getElementById("btnLabel");
+        btn.disabled = on;
+        spinner.style.display = on ? "block" : "none";
+        label.textContent = on ? "Signing in..." : "Sign In";
+      }
+
+      function login() {
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        if (!email || !password) {
+          showToast("Please fill in all fields.", "error");
+          return;
+        }
+
+        setLoading(true);
+
+        fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        })
+          .then((res) => {
+            if (!res.ok) throw new Error("Invalid credentials");
+            return res.json();
+          })
+          .then((data) => {
+            if (!data || !data.id) throw new Error("Invalid credentials");
+            localStorage.setItem("userId", data.id);
+            localStorage.setItem("userName", data.name || "Voter");
+            showToast("Login successful! Redirecting…", "success");
+            setTimeout(() => {
+              window.location = "user.html";
+            }, 900);
+          })
+          .catch((err) => {
+            setLoading(false);
+            showToast(
+              err.message || "Login failed. Please try again.",
+              "error",
+            );
+          });
+      }
+    </script>
+  </body>
+</html>
