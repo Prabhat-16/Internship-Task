@@ -4,6 +4,23 @@ This repository contains daily tasks and projects completed during the internshi
 
 ## 📅 Daily Tasks
 
+### 22-02-2026
+
+- **VoteSecure (Forgot Password)**: Implemented "Forgot Password" functionality with email-based token reset, SMTP integration, and updated application configurations.
+
+### 21-02-2026
+
+- **VoteSecure (Registration & Persistence)**: Fixed registration bugs, implemented MySQL persistence, and added cache-control headers to prevent stale frontend issues.
+
+### 20-02-2026
+
+- **VoteSecure (VotingSystem)**: A Spring Boot based secure digital voting platform with modern UI, featuring role-based dashboards (Admin/User), secure authentication, and real-time voting capabilities.
+
+### 19-02-2026
+
+- **Portfolio Enhancement**: Updated the personal portfolio with a "DevOps & Cloud" theme, featuring a new color palette (Sky Blue/Indigo), improved UI, and updated skills section.
+- **LeaveManagementSystem Updates**: Implemented post-login redirection logic and enhanced dashboard navigation.
+
 ### 18-02-2026
 
 - **LeaveManagementSystem**: Java Web Application for Leave Management with features for user/admin dashboards and leave tracking.
