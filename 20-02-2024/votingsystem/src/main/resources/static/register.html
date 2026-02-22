@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
   <title>VoteSecure — Register</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -513,10 +516,14 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
       })
-        .then(res => res.text())
-        .then(data => {
+        .then(async res => {
+          const data = await res.json();
           setLoading(false);
-          showToast(data || 'Registration successful!', 'success');
+          if (!res.ok) {
+            showToast(data.message || 'Registration failed. Please try again.', 'error');
+            return;
+          }
+          showToast(data.message || 'Registration successful!', 'success');
           // Mark all steps done
           ['step1','step2','step3'].forEach(id => {
             document.getElementById(id).className = 'step-dot done';

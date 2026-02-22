@@ -651,7 +651,6 @@
     <div class="section-label" id="sectionLabel">Loading candidates…</div>
     <div class="candidates-grid" id="candidatesGrid">
       <!-- Skeleton loaders -->
-      ${Array(3).fill(`
       <div class="skeleton-card">
         <div class="sk-top">
           <div class="skeleton sk-avatar"></div>
@@ -662,7 +661,29 @@
         </div>
         <div class="skeleton sk-bar"></div>
         <div class="skeleton sk-btn"></div>
-      </div>`).join('')}
+      </div>
+      <div class="skeleton-card">
+        <div class="sk-top">
+          <div class="skeleton sk-avatar"></div>
+          <div class="sk-lines">
+            <div class="skeleton sk-line w80"></div>
+            <div class="skeleton sk-line w50"></div>
+          </div>
+        </div>
+        <div class="skeleton sk-bar"></div>
+        <div class="skeleton sk-btn"></div>
+      </div>
+      <div class="skeleton-card">
+        <div class="sk-top">
+          <div class="skeleton sk-avatar"></div>
+          <div class="sk-lines">
+            <div class="skeleton sk-line w80"></div>
+            <div class="skeleton sk-line w50"></div>
+          </div>
+        </div>
+        <div class="skeleton sk-bar"></div>
+        <div class="skeleton sk-btn"></div>
+      </div>
     </div>
   </div>
 
@@ -832,9 +853,14 @@
       if (btn) { btn.disabled = true; btn.textContent = '⏳ Submitting…'; }
 
       fetch(`/api/vote?userId=${userId}&candidateId=${id}`, { method: 'POST' })
-        .then(res => res.text())
-        .then(data => {
-          showToast('✅ ' + (data || 'Vote cast successfully!'), 'success');
+        .then(async res => {
+          const data = await res.json();
+          if (!res.ok) {
+            showToast('⛔ ' + (data.message || 'Vote failed.'), 'error');
+            if (btn) { btn.disabled = false; btn.textContent = '🗳️ Vote'; }
+            return;
+          }
+          showToast('✅ ' + (data.message || 'Vote cast successfully!'), 'success');
           if (btn) {
             btn.className = 'vote-btn voted';
             btn.textContent = '✅ Vote Cast!';
