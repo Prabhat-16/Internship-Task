@@ -9,7 +9,7 @@
   <title>VoteSecure — Register</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -18,10 +18,12 @@
       --primary-light: #818cf8;
       --primary-dark: #4f46e5;
       --accent: #06b6d4;
-      --bg-deep: #0a0b1e;
-      --border: rgba(255,255,255,0.1);
+      --accent2: #a855f7;
+      --bg-deep: #060714;
+      --border: rgba(255,255,255,0.08);
       --text: #f1f5f9;
       --text-muted: #94a3b8;
+      --success: #10b981;
     }
 
     body {
@@ -29,328 +31,306 @@
       background: var(--bg-deep);
       min-height: 100vh;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      overflow: hidden;
+      overflow-y: auto;
+      overflow-x: hidden;
       position: relative;
+      padding: 20px 0;
     }
 
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(99,102,241,0.25) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 80% 90%, rgba(6,182,212,0.2) 0%, transparent 60%);
-      animation: bgPulse 9s ease-in-out infinite alternate;
-      z-index: 0;
-    }
-    @keyframes bgPulse {
-      0%   { opacity: 0.7; transform: scale(1); }
-      100% { opacity: 1;   transform: scale(1.05); }
-    }
-
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 40px 40px;
-      z-index: 0;
+    #particles-canvas {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
     }
 
     .orb {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(80px);
-      pointer-events: none;
-      z-index: 0;
+      position: fixed; border-radius: 50%; filter: blur(100px);
+      pointer-events: none; z-index: 1;
     }
-    .orb-1 { width: 400px; height: 400px; background: rgba(99,102,241,0.15); top: -100px; right: -100px; animation: float1 12s ease-in-out infinite; }
-    .orb-2 { width: 300px; height: 300px; background: rgba(6,182,212,0.12); bottom: -80px; left: -80px; animation: float2 10s ease-in-out infinite; }
-    @keyframes float1 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-40px,30px); } }
-    @keyframes float2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(30px,-40px); } }
+    .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(99,102,241,0.22) 0%, transparent 70%); top: -150px; right: -150px; animation: orbF1 10s ease-in-out infinite; }
+    .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(6,182,212,0.18) 0%, transparent 70%); bottom: -100px; left: -100px; animation: orbF2 12s ease-in-out infinite; }
+    @keyframes orbF1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-50px,40px)} }
+    @keyframes orbF2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,-50px)} }
+
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 44px 44px;
+      z-index: 1; pointer-events: none;
+    }
 
     .container {
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      max-width: 460px;
-      padding: 24px;
-      animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1) both;
+      position: relative; z-index: 10;
+      width: 100%; max-width: 460px; padding: 16px;
+      animation: slideUp 0.7s cubic-bezier(0.16,1,0.3,1) both;
     }
     @keyframes slideUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(50px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    .brand {
-      text-align: center;
-      margin-bottom: 28px;
-    }
+    /* Brand */
+    .brand { text-align: center; margin-bottom: 16px; }
+    .brand-icon-wrap { position: relative; display: inline-block; margin-bottom: 10px; }
     .brand-icon {
-      width: 64px; height: 64px;
+      width: 54px; height: 54px;
       background: linear-gradient(135deg, var(--primary), var(--accent));
-      border-radius: 20px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 14px;
-      box-shadow: 0 0 40px rgba(99,102,241,0.5);
-      font-size: 28px;
-      animation: iconPulse 3s ease-in-out infinite;
+      border-radius: 16px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 24px; position: relative; z-index: 2;
+      animation: iconGlow 2.5s ease-in-out infinite;
     }
-    @keyframes iconPulse {
-      0%,100% { box-shadow: 0 0 40px rgba(99,102,241,0.5); }
-      50%      { box-shadow: 0 0 60px rgba(99,102,241,0.7), 0 0 80px rgba(6,182,212,0.3); }
+    .brand-icon-ring {
+      position: absolute; inset: -6px; border-radius: 20px;
+      border: 2px solid rgba(99,102,241,0.3);
+      animation: ringExpand 2.5s ease-in-out infinite;
     }
-    .brand h1 { font-size: 26px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
-    .brand p  { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+    .brand-icon-ring2 {
+      position: absolute; inset: -12px; border-radius: 24px;
+      border: 1px solid rgba(99,102,241,0.15);
+      animation: ringExpand 2.5s ease-in-out infinite 0.4s;
+    }
+    @keyframes iconGlow {
+      0%,100% { box-shadow: 0 0 30px rgba(99,102,241,0.4); }
+      50%      { box-shadow: 0 0 50px rgba(99,102,241,0.6), 0 0 80px rgba(6,182,212,0.2); }
+    }
+    @keyframes ringExpand {
+      0%   { opacity: 1; transform: scale(1); }
+      80%  { opacity: 0; transform: scale(1.3); }
+      100% { opacity: 0; transform: scale(1.3); }
+    }
+    .brand h1 {
+      font-size: 24px; font-weight: 900; letter-spacing: -0.8px;
+      background: linear-gradient(135deg, #fff 0%, var(--primary-light) 50%, var(--accent) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 4px;
+    }
+    .brand p { font-size: 13px; color: var(--text-muted); }
 
+    /* Card */
     .card {
-      background: rgba(255,255,255,0.04);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(30px) saturate(180%);
+      -webkit-backdrop-filter: blur(30px) saturate(180%);
       border: 1px solid var(--border);
       border-radius: 24px;
-      padding: 36px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+      padding: 26px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.03) inset, 0 20px 60px rgba(0,0,0,0.5);
+      position: relative; overflow: hidden;
+      transition: border-color 0.4s, box-shadow 0.4s;
+    }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(99,102,241,0.6), rgba(6,182,212,0.4), transparent);
+      opacity: 0.6;
+    }
+    .card:hover {
+      border-color: rgba(99,102,241,0.2);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.05) inset, 0 20px 60px rgba(0,0,0,0.5), 0 0 120px rgba(99,102,241,0.08);
     }
 
-    /* Step indicator */
+    /* Steps */
     .steps {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      margin-bottom: 28px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 0; margin-bottom: 20px;
     }
     .step-dot {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 700;
-      background: rgba(255,255,255,0.06);
+      width: 30px; height: 30px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      background: rgba(255,255,255,0.05);
       border: 2px solid rgba(255,255,255,0.1);
       color: var(--text-muted);
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+      position: relative;
     }
     .step-dot.active {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       border-color: var(--primary);
       color: #fff;
-      box-shadow: 0 0 16px rgba(99,102,241,0.5);
+      box-shadow: 0 0 20px rgba(99,102,241,0.5), 0 0 40px rgba(99,102,241,0.2);
+      transform: scale(1.1);
     }
     .step-dot.done {
       background: rgba(16,185,129,0.2);
-      border-color: rgba(16,185,129,0.5);
+      border-color: rgba(16,185,129,0.6);
       color: #6ee7b7;
+      box-shadow: 0 0 15px rgba(16,185,129,0.3);
     }
+    .step-label {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-muted);
+      position: absolute;
+      bottom: -16px;
+      white-space: nowrap;
+      letter-spacing: 0.3px;
+    }
+    .step-dot.active .step-label { color: var(--primary-light); }
+    .step-dot.done .step-label { color: var(--success); }
     .step-line {
-      flex: 1;
-      max-width: 48px;
-      height: 2px;
-      background: rgba(255,255,255,0.08);
-      transition: background 0.3s ease;
+      flex: 1; max-width: 60px; height: 2px;
+      background: rgba(255,255,255,0.07);
+      transition: background 0.4s ease;
+      border-radius: 2px;
     }
-    .step-line.done { background: rgba(99,102,241,0.5); }
+    .step-line.done { background: linear-gradient(90deg, var(--primary), var(--accent)); }
 
-    .card-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-    .card-sub {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-    }
+    .card-header { margin-bottom: 16px; margin-top: 14px; }
+    .card-title { font-size: 19px; font-weight: 800; color: var(--text); letter-spacing: -0.4px; margin-bottom: 3px; }
+    .card-sub   { font-size: 13px; color: var(--text-muted); }
 
-    .field { margin-bottom: 16px; }
+    /* Fields */
+    .field { margin-bottom: 12px; }
     .field label {
-      display: block;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-muted);
-      margin-bottom: 8px;
+      display: block; font-size: 11px; font-weight: 600;
+      color: var(--text-muted); margin-bottom: 6px;
+      letter-spacing: 0.8px; text-transform: uppercase;
     }
     .input-wrap { position: relative; }
     .input-icon {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 16px;
-      color: var(--text-muted);
-      pointer-events: none;
-      transition: color 0.2s;
+      position: absolute; left: 14px; top: 50%;
+      transform: translateY(-50%); font-size: 15px; color: var(--text-muted);
+      pointer-events: none; transition: color 0.3s, transform 0.3s; z-index: 2;
+    }
+    .input-wrap:focus-within .input-icon {
+      color: var(--primary-light); transform: translateY(-50%) scale(1.1);
     }
     .field input {
-      width: 100%;
-      padding: 13px 14px 13px 42px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      color: var(--text);
-      font-size: 14px;
-      font-family: 'Inter', sans-serif;
-      outline: none;
-      transition: all 0.25s ease;
+      width: 100%; padding: 11px 14px 11px 42px;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 12px; color: var(--text); font-size: 14px;
+      font-family: 'Inter', sans-serif; outline: none; transition: all 0.3s;
     }
-    .field input::placeholder { color: rgba(148,163,184,0.5); }
+    .field input::placeholder { color: rgba(148,163,184,0.4); }
     .field input:focus {
-      border-color: var(--primary);
-      background: rgba(99,102,241,0.08);
-      box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+      border-color: var(--primary); background: rgba(99,102,241,0.07);
+      box-shadow: 0 0 0 4px rgba(99,102,241,0.12), 0 0 20px rgba(99,102,241,0.08);
+      transform: translateY(-1px);
     }
-    .input-wrap:focus-within .input-icon { color: var(--primary-light); }
-
     .toggle-pw {
-      position: absolute;
-      right: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      cursor: pointer;
-      font-size: 16px;
-      color: var(--text-muted);
-      user-select: none;
-      transition: color 0.2s;
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      cursor: pointer; font-size: 16px; color: var(--text-muted);
+      user-select: none; transition: all 0.2s; z-index: 2;
     }
-    .toggle-pw:hover { color: var(--text); }
+    .toggle-pw:hover { color: var(--text); transform: translateY(-50%) scale(1.1); }
 
     /* Password strength */
-    .strength-bar { margin-top: 8px; display: flex; gap: 4px; }
+    .strength-bar { margin-top: 10px; display: flex; gap: 4px; }
     .strength-seg {
-      flex: 1;
-      height: 3px;
-      border-radius: 99px;
-      background: rgba(255,255,255,0.08);
-      transition: background 0.3s ease;
+      flex: 1; height: 4px; border-radius: 99px;
+      background: rgba(255,255,255,0.07);
+      transition: background 0.4s ease, box-shadow 0.4s ease;
     }
-    .strength-seg.weak   { background: #ef4444; }
-    .strength-seg.medium { background: #f59e0b; }
-    .strength-seg.strong { background: #10b981; }
-    .strength-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 4px;
-      text-align: right;
-    }
+    .strength-seg.weak   { background: #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.4); }
+    .strength-seg.medium { background: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,0.4); }
+    .strength-seg.strong { background: #10b981; box-shadow: 0 0 6px rgba(16,185,129,0.4); }
+    .strength-label { font-size: 11px; color: var(--text-muted); margin-top: 5px; text-align: right; font-weight: 500; }
 
+    /* Button */
     .btn {
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      border: none;
-      border-radius: 12px;
-      color: #fff;
-      font-size: 15px;
-      font-weight: 600;
-      font-family: 'Inter', sans-serif;
-      cursor: pointer;
-      margin-top: 8px;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 20px rgba(99,102,241,0.4);
+      width: 100%; padding: 12px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, #3730a3 100%);
+      border: none; border-radius: 12px; color: #fff;
+      font-size: 14px; font-weight: 700; font-family: 'Inter', sans-serif;
+      cursor: pointer; margin-top: 6px; position: relative; overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 24px rgba(99,102,241,0.45), 0 0 0 1px rgba(255,255,255,0.08) inset;
+      letter-spacing: 0.3px;
     }
     .btn::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
+      content: ''; position: absolute; top: 0; left: -100%;
       width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-      transition: left 0.5s ease;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.6s ease;
     }
     .btn:hover::before { left: 100%; }
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(99,102,241,0.55); }
-    .btn:active { transform: translateY(0); }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(99,102,241,0.6); }
+    .btn:active { transform: translateY(-1px); }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
     .btn-text { display: flex; align-items: center; justify-content: center; gap: 8px; }
     .spinner {
-      display: none;
-      width: 18px; height: 18px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
+      display: none; width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+      border-radius: 50%; animation: spin 0.7s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    .toast {
-      margin-top: 16px;
-      padding: 12px 16px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 500;
-      display: none;
-      align-items: center;
-      gap: 8px;
-      animation: fadeIn 0.3s ease;
+    .ripple {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      transform: scale(0); animation: rippleAnim 0.6s ease-out;
+      pointer-events: none;
     }
-    @keyframes fadeIn { from { opacity:0; transform: translateY(-5px); } to { opacity:1; transform: translateY(0); } }
-    .toast.error   { background: rgba(239,68,68,0.15);  border: 1px solid rgba(239,68,68,0.3);  color: #fca5a5; display: flex; }
-    .toast.success { background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; display: flex; }
+    @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
 
+    /* Toast */
+    .toast {
+      margin-top: 10px; padding: 10px 14px; border-radius: 10px;
+      font-size: 13px; font-weight: 500; display: none; align-items: center;
+      gap: 10px; animation: toastIn 0.35s cubic-bezier(0.16,1,0.3,1);
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .toast.error   { background: rgba(239,68,68,0.12);  border: 1px solid rgba(239,68,68,0.3);  color: #fca5a5; display: flex; }
+    .toast.success { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; display: flex; }
+
+    /* Footer */
     .footer-link {
-      text-align: center;
-      margin-top: 24px;
-      font-size: 13px;
-      color: var(--text-muted);
+      text-align: center; margin-top: 16px; font-size: 13px; color: var(--text-muted);
     }
     .footer-link a {
-      color: var(--primary-light);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s;
+      font-weight: 600; text-decoration: none; transition: opacity 0.2s;
+      background: linear-gradient(90deg, var(--primary-light), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .footer-link a:hover { color: var(--accent); text-decoration: underline; }
+    .footer-link a:hover { opacity: 0.8; }
 
     .security-badge {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 20px;
-      font-size: 12px;
-      color: rgba(148,163,184,0.6);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 12px; font-size: 11px; color: rgba(148,163,184,0.4);
     }
+    .security-badge .sep { opacity: 0.3; }
 
     @media (max-width: 480px) {
-      .card { padding: 24px; }
+      .card { padding: 28px 20px; }
       .container { padding: 16px; }
     }
   </style>
 </head>
 <body>
+  <canvas id="particles-canvas"></canvas>
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
 
   <div class="container">
     <div class="brand">
-      <div class="brand-icon">🗳️</div>
+      <div class="brand-icon-wrap">
+        <div class="brand-icon-ring2"></div>
+        <div class="brand-icon-ring"></div>
+        <div class="brand-icon">🗳️</div>
+      </div>
       <h1>VoteSecure</h1>
       <p>Create your voter account</p>
     </div>
 
     <div class="card">
-      <!-- Step indicator -->
       <div class="steps">
-        <div class="step-dot active" id="step1">1</div>
+        <div class="step-dot active" id="step1">1<span class="step-label">Identity</span></div>
         <div class="step-line" id="line1"></div>
-        <div class="step-dot" id="step2">2</div>
+        <div class="step-dot" id="step2">2<span class="step-label">Security</span></div>
         <div class="step-line" id="line2"></div>
-        <div class="step-dot" id="step3">✓</div>
+        <div class="step-dot" id="step3">✓<span class="step-label">Done</span></div>
       </div>
 
-      <div class="card-title">Create Account</div>
-      <div class="card-sub">Register to participate in the election</div>
+      <div class="card-header">
+        <div class="card-title">Create Account</div>
+        <div class="card-sub">Join the secure voting platform</div>
+      </div>
 
       <div class="field">
         <label for="name">Full Name</label>
@@ -384,10 +364,10 @@
         <div class="strength-label" id="strengthLabel">Password strength</div>
       </div>
 
-      <button class="btn" id="regBtn" onclick="register()">
+      <button class="btn" id="regBtn" onclick="register(this, event)">
         <span class="btn-text">
           <div class="spinner" id="spinner"></div>
-          <span id="btnLabel">Create Account</span>
+          <span id="btnLabel">Create Account →</span>
         </span>
       </button>
 
@@ -399,14 +379,61 @@
     </div>
 
     <div class="security-badge">
-      🔐 Secure Registration &nbsp;·&nbsp; ✅ Free & Transparent
+      🔐 Secure Registration
+      <span class="sep">·</span>
+      ✅ Free & Transparent
+      <span class="sep">·</span>
+      🛡️ Privacy Protected
     </div>
   </div>
 
   <script>
+    /* ── Particle Canvas ── */
+    (function() {
+      const canvas = document.getElementById('particles-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [];
+      function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+      resize();
+      window.addEventListener('resize', resize);
+      function mkP() {
+        return { x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.5+0.4,
+          dx: (Math.random()-0.5)*0.3, dy: (Math.random()-0.5)*0.3,
+          alpha: Math.random()*0.5+0.1,
+          color: ['rgba(99,102,241,','rgba(6,182,212,','rgba(168,85,247,'][Math.floor(Math.random()*3)] };
+      }
+      for (let i = 0; i < 80; i++) particles.push(mkP());
+      function draw() {
+        ctx.clearRect(0,0,W,H);
+        particles.forEach(p => {
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          ctx.fillStyle = p.color+p.alpha+')'; ctx.fill();
+          p.x+=p.dx; p.y+=p.dy;
+          if(p.x<0||p.x>W) p.dx*=-1; if(p.y<0||p.y>H) p.dy*=-1;
+        });
+        for(let i=0;i<particles.length;i++) for(let j=i+1;j<particles.length;j++) {
+          const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+          const d=Math.sqrt(dx*dx+dy*dy);
+          if(d<110) {
+            ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y);
+            ctx.strokeStyle=`rgba(99,102,241,${(1-d/110)*0.1})`; ctx.lineWidth=0.6; ctx.stroke();
+          }
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    function addRipple(btn, e) {
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const r = document.createElement('span'); r.className = 'ripple';
+      r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px`;
+      btn.appendChild(r); setTimeout(() => r.remove(), 600);
+    }
+
     let nameOk = false, emailOk = false;
 
-    // Steps animation
     function onNameInput() {
       nameOk = document.getElementById('name').value.trim().length >= 2;
       updateSteps();
@@ -416,61 +443,44 @@
       updateSteps();
     }
     function updateSteps() {
-      const s1 = document.getElementById('step1');
-      const s2 = document.getElementById('step2');
-      const l1 = document.getElementById('line1');
+      const s1 = document.getElementById('step1'), s2 = document.getElementById('step2'), l1 = document.getElementById('line1');
       if (nameOk && emailOk) {
-        s1.className = 'step-dot done'; s1.textContent = '✓';
-        s2.className = 'step-dot active';
-        l1.className = 'step-line done';
+        s1.className = 'step-dot done'; s1.innerHTML = '✓<span class="step-label">Identity</span>';
+        s2.className = 'step-dot active'; l1.className = 'step-line done';
       } else if (nameOk) {
-        s1.className = 'step-dot done'; s1.textContent = '✓';
-        s2.className = 'step-dot';
-        l1.className = 'step-line done';
+        s1.className = 'step-dot done'; s1.innerHTML = '✓<span class="step-label">Identity</span>';
+        s2.className = 'step-dot'; l1.className = 'step-line done';
       } else {
-        s1.className = 'step-dot active'; s1.textContent = '1';
-        s2.className = 'step-dot';
-        l1.className = 'step-line';
+        s1.className = 'step-dot active'; s1.innerHTML = '1<span class="step-label">Identity</span>';
+        s2.className = 'step-dot'; l1.className = 'step-line';
       }
     }
 
-    // Password toggle
     const toggler = document.getElementById('togglePw');
     toggler.addEventListener('click', () => {
       const pw = document.getElementById('password');
-      const isText = pw.type === 'text';
-      pw.type = isText ? 'password' : 'text';
+      const isText = pw.type === 'text'; pw.type = isText ? 'password' : 'text';
       toggler.textContent = isText ? '👁️' : '🙈';
     });
 
-    // Password strength
     function checkStrength() {
       const pw = document.getElementById('password').value;
       let score = 0;
-      if (pw.length >= 6)  score++;
+      if (pw.length >= 6) score++;
       if (pw.length >= 10) score++;
       if (/[A-Z]/.test(pw) && /[0-9]/.test(pw)) score++;
       if (/[^A-Za-z0-9]/.test(pw)) score++;
-
       const segs = ['s1','s2','s3','s4'];
-      const labels = ['','Weak','Fair','Good','Strong'];
       const classes = ['','weak','weak','medium','strong'];
       segs.forEach((id,i) => {
-        const el = document.getElementById(id);
-        el.className = 'strength-seg';
+        const el = document.getElementById(id); el.className = 'strength-seg';
         if (i < score) el.classList.add(classes[score]);
       });
+      const labels = ['','Weak 🔴','Fair 🟡','Good 🟢','Strong 💪'];
       document.getElementById('strengthLabel').textContent = score > 0 ? labels[score] : 'Password strength';
-
-      if (score >= 2) {
-        const s2 = document.getElementById('step2');
-        const s3 = document.getElementById('step3');
-        const l2 = document.getElementById('line2');
-        if (nameOk && emailOk) {
-          s2.className = 'step-dot done'; s2.textContent = '✓';
-          s3.className = 'step-dot active';
-          l2.className = 'step-line done';
-        }
+      if (score >= 2 && nameOk && emailOk) {
+        document.getElementById('step2').className = 'step-dot done'; document.getElementById('step2').innerHTML = '✓<span class="step-label">Security</span>';
+        document.getElementById('step3').className = 'step-dot active'; document.getElementById('line2').className = 'step-line done';
       }
     }
 
@@ -481,61 +491,35 @@
     }
 
     function setLoading(on) {
-      const btn = document.getElementById('regBtn');
-      const spinner = document.getElementById('spinner');
-      const label = document.getElementById('btnLabel');
-      btn.disabled = on;
-      spinner.style.display = on ? 'block' : 'none';
-      label.textContent = on ? 'Creating account...' : 'Create Account';
+      const btn = document.getElementById('regBtn'), spinner = document.getElementById('spinner'), label = document.getElementById('btnLabel');
+      btn.disabled = on; spinner.style.display = on ? 'block' : 'none';
+      label.textContent = on ? 'Creating account…' : 'Create Account →';
     }
 
-    document.addEventListener('keydown', e => { if (e.key === 'Enter') register(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Enter') register(document.getElementById('regBtn'), e); });
 
-    function register() {
+    function register(btnEl, event) {
+      if (event) addRipple(btnEl, event);
       const name = document.getElementById('name').value.trim();
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
-
-      if (!name || !email || !password) {
-        showToast('Please fill in all fields.', 'error');
-        return;
-      }
-      if (!/\S+@\S+\.\S+/.test(email)) {
-        showToast('Please enter a valid email address.', 'error');
-        return;
-      }
-      if (password.length < 6) {
-        showToast('Password must be at least 6 characters.', 'error');
-        return;
-      }
-
+      if (!name || !email || !password) { showToast('Please fill in all fields.', 'error'); return; }
+      if (!/\S+@\S+\.\S+/.test(email)) { showToast('Please enter a valid email address.', 'error'); return; }
+      if (password.length < 6) { showToast('Password must be at least 6 characters.', 'error'); return; }
       setLoading(true);
-
-      fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
-      })
+      fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, password }) })
         .then(async res => {
-          const data = await res.json();
-          setLoading(false);
-          if (!res.ok) {
-            showToast(data.message || 'Registration failed. Please try again.', 'error');
-            return;
-          }
+          const data = await res.json(); setLoading(false);
+          if (!res.ok) { showToast(data.message || 'Registration failed.', 'error'); return; }
           showToast(data.message || 'Registration successful!', 'success');
-          // Mark all steps done
           ['step1','step2','step3'].forEach(id => {
             document.getElementById(id).className = 'step-dot done';
-            document.getElementById(id).textContent = '✓';
+            document.getElementById(id).innerHTML = '✓<span class="step-label">' + (id==='step1'?'Identity':id==='step2'?'Security':'Done') + '</span>';
           });
           ['line1','line2'].forEach(id => document.getElementById(id).className = 'step-line done');
           setTimeout(() => { window.location = 'index.html'; }, 1500);
         })
-        .catch(() => {
-          setLoading(false);
-          showToast('Registration failed. Please try again.', 'error');
-        });
+        .catch(() => { setLoading(false); showToast('Registration failed. Please try again.', 'error'); });
     }
   </script>
 </body>
