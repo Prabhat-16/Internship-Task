@@ -1,0 +1,26 @@
+order_id,order_date,product_name,category,total_amount
+1,2025-01-05,Running Shoes,Fashion,2500
+2,2025-01-10,iPhone 14,Electronics,75000
+3,2025-01-15,Keyboard,Electronics,3500
+4,2025-01-20,Backpack,Fashion,1800
+5,2025-02-01,Casual T-shirt,Fashion,1200
+6,2025-02-05,Sony Headphones,Electronics,12000
+7,2025-02-10,MacBook Air,Electronics,95000
+8,2025-02-15,Wrist Watch,Accessories,4500
+9,2025-02-20,Sunglasses,Accessories,2500
+10,2025-03-01,Levi's Jeans,Fashion,3200
+11,2025-03-05,Dell Monitor,Electronics,18000
+12,2025-03-10,Gaming Mouse,Electronics,4200
+13,2025-03-15,Premium Watch,Accessories,8500
+14,2025-03-20,Winter Jacket,Fashion,5500
+15,2025-03-25,Leather Belt,Accessories,1500
+16,2025-04-02,Bluetooth Speaker,Electronics,6000
+17,2025-04-05,Canvas Shoes,Fashion,2200
+18,2025-04-10,USB-C Hub,Electronics,3000
+19,2025-04-15,Cap,Fashion,800
+20,2025-04-20,Power Bank,Electronics,2500
+21,2025-05-01,Office Chair,Electronics,15000
+22,2025-05-05,Desk Lamp,Electronics,2500
+23,2025-05-10,Wallet,Accessories,1200
+24,2025-05-15,Sunscreen,Accessories,900
+25,2025-05-20,Hiking Boots,Fashion,4500
