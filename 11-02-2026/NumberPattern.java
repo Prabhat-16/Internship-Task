@@ -15,9 +15,21 @@ public class NumberPattern {
                 System.out.print(" ");
             }
 
+             // Starting spaces for right alignment
+            // for (int s = 1; s <= (n - i); s++) {
+            //     System.out.print("  ");
+            // }
+
+              // Left side numbers
+            // for (int j = 1; j <= i; j++) {
+            //     System.out.print(j);
+            // }
+
             for (int j = i; j >= 1; j--) {
                 System.out.print(j);
             }
+
+            
 
             System.out.println();
         }
